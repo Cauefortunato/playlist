@@ -4,36 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Minha Playlist</title>
+  
+  <!-- Bootstrap 5 (CSS) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome (Ícones) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    /* ===== VARIÁVEIS GLOBAIS ===== */
     :root {
-      --primary-color: #6c5ce7;
-      --secondary-color: #a29bfe;
-      --dark-bg: #1e1e2e;
-      --dark-item: #2d2d3a;
-      --light-bg: #f8f9fa;
-      --light-item: #ffffff;
+      --primary-color: #6c5ce7;       /* Cor principal (roxo) */
+      --secondary-color: #a29bfe;     /* Cor secundária (roxo claro) */
+      --dark-bg: #1e1e2e;             /* Fundo do modo escuro */
+      --dark-item: #2d2d3a;           /* Itens no modo escuro */
+      --light-bg: #f8f9fa;            /* Fundo do modo claro */
+      --light-item: #ffffff;          /* Itens no modo claro */
     }
 
+    /* ===== ESTILOS GERAIS ===== */
     body {
       padding-top: 30px;
       background-color: var(--light-bg);
       color: #333;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      transition: all 0.4s ease;
+      transition: all 0.4s ease;      /* Transição suave para o modo escuro */
       min-height: 100vh;
     }
 
+    /* ===== MODO ESCURO ===== */
     .dark-mode {
       background-color: var(--dark-bg);
       color: #f0f0f0;
     }
 
+    /* ===== LAYOUT DO CONTAINER ===== */
     .container {
-      max-width: 800px;
+      max-width: 800px;               /* Largura máxima do conteúdo */
     }
 
+    /* ===== CABEÇALHO ===== */
     .header {
       text-align: center;
       margin-bottom: 2rem;
@@ -48,6 +58,7 @@
       gap: 10px;
     }
 
+    /* Botão de alternar tema (lua/sol) */
     .header .theme-toggle {
       position: absolute;
       right: 15px;
@@ -59,6 +70,7 @@
       color: var(--primary-color);
     }
 
+    /* ===== FORMULÁRIO DE ADICIONAR MÚSICA ===== */
     .add-music-container {
       display: flex;
       gap: 10px;
@@ -92,6 +104,7 @@
       transform: translateY(-2px);
     }
 
+    /* ===== CONTROLES DA PLAYLIST (ORDENAÇÃO/LIMPEZA) ===== */
     .playlist-controls {
       display: flex;
       justify-content: space-between;
@@ -101,6 +114,7 @@
       gap: 10px;
     }
 
+    /* Contador de músicas */
     .counter {
       font-size: 0.9rem;
       color: #666;
@@ -114,6 +128,7 @@
       color: #ccc;
     }
 
+    /* Botões de ordenação e limpeza */
     .control-buttons {
       display: flex;
       gap: 8px;
@@ -128,12 +143,14 @@
       gap: 5px;
     }
 
+    /* ===== LISTA DE MÚSICAS ===== */
     #playlist {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
+    /* Item individual da playlist */
     .playlist-item {
       display: flex;
       justify-content: space-between;
@@ -162,6 +179,7 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
+    /* Barra lateral colorida */
     .playlist-item::before {
       content: '';
       position: absolute;
@@ -172,6 +190,7 @@
       background-color: var(--primary-color);
     }
 
+    /* Conteúdo da música (nome/link) */
     .music-content {
       flex: 1;
       padding-right: 15px;
@@ -194,6 +213,7 @@
       color: var(--secondary-color);
     }
 
+    /* Botões de ação (editar/excluir) */
     .music-actions {
       display: flex;
       gap: 8px;
@@ -210,6 +230,7 @@
       transition: all 0.2s;
     }
 
+    /* Botão de editar (amarelo) */
     .edit-btn {
       background-color: rgba(255, 193, 7, 0.2);
       color: #ffc107;
@@ -219,6 +240,7 @@
       background-color: rgba(255, 193, 7, 0.3);
     }
 
+    /* Botão de excluir (vermelho) */
     .delete-btn {
       background-color: rgba(220, 53, 69, 0.2);
       color: #dc3545;
@@ -228,6 +250,7 @@
       background-color: rgba(220, 53, 69, 0.3);
     }
 
+    /* Input de edição */
     .edit-input {
       width: 100%;
       border: none;
@@ -238,6 +261,7 @@
       border-bottom: 2px solid var(--primary-color);
     }
 
+    /* ===== ESTADO VAZIO (QUANDO NÃO HÁ MÚSICAS) ===== */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -258,6 +282,7 @@
       color: #aaa;
     }
 
+    /* ===== RESPONSIVIDADE (MOBILE) ===== */
     @media (max-width: 576px) {
       .header h1 {
         font-size: 1.8rem;
@@ -281,29 +306,40 @@
 </head>
 <body>
   <div class="container">
+    <!-- CABEÇALHO -->
     <div class="header">
       <h1><i class="fas fa-music"></i> Minha Playlist</h1>
+      <!-- Botão de alternar tema (claro/escuro) -->
       <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
     </div>
 
+    <!-- FORMULÁRIO DE ADICIONAR MÚSICA -->
     <div class="add-music-container">
       <input type="text" id="musicInput" class="form-control" placeholder="Adicione uma música ou link..." onkeydown="if(event.key === 'Enter') addMusic()">
       <button class="btn btn-primary" onclick="addMusic()"><i class="fas fa-plus me-1"></i> Adicionar</button>
     </div>
 
+    <!-- CONTROLES DA PLAYLIST -->
     <div class="playlist-controls">
+      <!-- Contador de músicas -->
       <div class="counter" id="counter"><i class="fas fa-music me-1"></i> 0 músicas</div>
+      
+      <!-- Botões de ordenação e limpeza -->
       <div class="control-buttons">
         <button class="btn btn-outline-primary" onclick="sortPlaylist(true)"><i class="fas fa-sort-alpha-down me-1"></i>A-Z</button>
         <button class="btn btn-outline-primary" onclick="sortPlaylist(false)"><i class="fas fa-sort-alpha-down-alt me-1"></i>Z-A</button>
         <button class="btn btn-outline-danger" onclick="clearPlaylist()"><i class="fas fa-trash me-1"></i>Limpar</button>
+        <span class="btn btn-outline-secondary">
+      <i class="fas fa-trash-alt me-1"></i>
+    <span id="deletedCount">0</span> excluídas
+</span>
       </div>
     </div>
 
-    <div id="playlist">
-      <!-- Itens da playlist serão inseridos aqui via JavaScript -->
-    </div>
+    <!-- LISTA DE MÚSICAS (RENDERIZADA DINAMICAMENTE) -->
+    <div id="playlist"></div>
     
+    <!-- MENSAGEM DE PLAYLIST VAZIA -->
     <div id="emptyState" class="empty-state" style="display: none;">
       <i class="fas fa-music"></i>
       <h4>Sua playlist está vazia</h4>
@@ -311,184 +347,246 @@
     </div>
   </div>
 
-      <script>
-        const musicInput = document.getElementById('musicInput');// pega o input de musica
-        const playlistContainer = document.getElementById('playlist');
-        const counter = document.getElementById('counter');// pega o contador de musicas
-        const emptyState = document.getElementById('emptyState');
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ===== VARIÁVEIS GLOBAIS =====
+    const musicInput = document.getElementById('musicInput');       // Input de adicionar música
+    const playlistContainer = document.getElementById('playlist'); // Container da playlist
+    const counter = document.getElementById('counter');            // Contador de músicas
+    const emptyState = document.getElementById('emptyState');      // Mensagem de playlist vazia
 
-        let playlist = JSON.parse(localStorage.getItem('playlist')) || [];// 1 L)pega a playlist do localStorage ou cria um array vazio
+    // Carrega a playlist do localStorage ou cria um array vazio
+    let playlist = JSON.parse(localStorage.getItem('playlist')) || [];
 
-        function save() {
-          localStorage.setItem('playlist', JSON.stringify(playlist));//2 L) salva a playlist no localStorage
-          updateCounter();
-          toggleEmptyState();
-        }
+    let deletedCount = parseInt(localStorage.getItem('deletedCount')) || 0; // Carrega do localStorage ou inicia em 0
 
-        function renderPlaylist() {
-          playlistContainer.innerHTML = '';
+    // ===== FUNÇÕES PRINCIPAIS =====
+
+    /**
+     * Salva a playlist no localStorage e atualiza a interface.
+     */
+    function savePlaylist() {
+      localStorage.setItem('playlist', JSON.stringify(playlist)); // Salva no navegador
+      updateCounter();          // Atualiza o contador
+      toggleEmptyState();       // Mostra/esconde mensagem de vazio
+    }
+
+    /**
+     * Renderiza a playlist na tela.
+     */
+    function renderPlaylist() {
+      playlistContainer.innerHTML = ''; // Limpa a playlist
+      
+      // Se não houver músicas, mostra mensagem de vazio
+      if (playlist.length === 0) {
+        toggleEmptyState();
+        return;
+      }
+      
+      // Para cada música, cria um item na playlist
+      playlist.forEach((music, index) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item';
+        item.setAttribute('draggable', 'true'); // Permite arrastar
+        item.dataset.index = index;            // Armazena o índice
+
+        // Verifica se é um link (para abrir em nova aba)
+        const isLink = music.startsWith('http');
+        const content = isLink
+          ? `<a href="${music}" target="_blank">${music}</a>`
+          : `<span ondblclick="editMusic(${index})">${music}</span>`; // Duplo clique para editar
+
+        // Estrutura do item da playlist
+        item.innerHTML = `
+          <div class="music-content">${content}</div>
+          <div class="music-actions">
+            <button class="edit-btn" onclick="editMusic(${index})"><i class="fas fa-edit"></i></button>
+            <button class="delete-btn" onclick="removeMusic(${index})"><i class="fas fa-trash"></i></button>
+          </div>
+        `;
+
+        // ===== EVENTOS DE DRAG AND DROP (ARRastar e SOLTAR) =====
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', index); // Armazena o índice do item arrastado
+          setTimeout(() => item.classList.add('dragging'), 0); // Adiciona classe de arrasto
+        });
+
+        item.addEventListener('dragend', () => item.classList.remove('dragging')); // Remove classe ao soltar
+
+        item.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          const afterElement = getDragAfterElement(playlistContainer, e.clientY); // Encontra a posição de solto
+          const draggingItem = document.querySelector('.dragging');
           
-          if (playlist.length === 0) {
-            toggleEmptyState();
-            return;
-          }
-          
-          playlist.forEach((music, index) => {
-            const item = document.createElement('div');
-            item.className = 'playlist-item';
-            item.setAttribute('draggable', 'true');
-            item.dataset.index = index;
-
-            const isLink = music.startsWith('http');// verifica se a musica é um link
-            const content = isLink
-              ? `<a href="${music}" target="_blank">${music}</a>`
-              : `<span ondblclick="editMusic(${index})">${music}</span>`;
-
-            item.innerHTML = `
-              <div class="music-content">${content}</div>
-              <div class="music-actions">
-                <button class="edit-btn" onclick="editMusic(${index})"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn" onclick="removeMusic(${index})"><i class="fas fa-trash"></i></button>
-              </div>
-            `;// cria o item da playlist
-
-            item.addEventListener('dragstart', (e) => {// 1 Ev) confere quando o mouse começa a arrastar o item
-              e.dataTransfer.setData('text/plain', index);
-              setTimeout(() => item.classList.add('dragging'), 0);
-            });
-
-            item.addEventListener('dragend', () => item.classList.remove('dragging'));  // 2 Ev) confere quando o mouse solta o item
-
-            item.addEventListener('dragover', (e) => {//  3 Ev) confere quando o mouse esta sobre o item arrastado
-              e.preventDefault();
-              const afterElement = getDragAfterElement(playlistContainer, e.clientY);
-              const draggingItem = document.querySelector('.dragging');
-              
-              if (afterElement == null) {// verifica se o item esta no final da lista
-                playlistContainer.appendChild(draggingItem);
-              } else {
-                playlistContainer.insertBefore(draggingItem, afterElement);
-              }
-            });
-
-            item.addEventListener('drop', (e) => {// 4 Ev) confere quando o mouse solta o item arrastado
-              e.preventDefault();
-              const from = parseInt(e.dataTransfer.getData('text/plain'));
-              const to = index;
-              
-              if (from !== to) {// verifica se o item foi movido
-                const temp = playlist[from];
-                playlist.splice(from, 1);
-                playlist.splice(to, 0, temp);
-                save();
-                renderPlaylist();
-              }
-            });
-
-            playlistContainer.appendChild(item);
-          });
-          
-          toggleEmptyState();
-        }
-
-        function getDragAfterElement(container, y) {// pega o elemento que esta sendo arrastado
-          const draggableElements = [...container.querySelectorAll('.playlist-item:not(.dragging)')];
-          
-          return draggableElements.reduce((closest, child) => {// verifica qual elemento esta mais proximo do mouse
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            
-            if (offset < 0 && offset > closest.offset) {
-              return { offset: offset, element: child };
-            } else {
-              return closest;
-            }
-          }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        function addMusic() {
-          const name = musicInput.value.trim();
-          if (name) {
-            playlist.push(name);
-            save();
-            musicInput.value = '';
-            renderPlaylist();
-            musicInput.focus();
-          }
-        }
-
-        function removeMusic(index) {
-          if (confirm('Tem certeza que deseja remover esta música?')) {
-            playlist.splice(index, 1);
-            save();
-            renderPlaylist();
-          }
-        }
-
-        function editMusic(index) {
-          const currentName = playlist[index];
-          const item = playlistContainer.children[index].querySelector('.music-content');
-          item.innerHTML = `
-            <input type="text" class="edit-input" value="${currentName}" 
-                  onblur="saveEdit(${index}, this.value)" 
-                  onkeydown="if(event.key==='Enter') saveEdit(${index}, this.value)"
-                  autofocus>
-          `;
-        }
-
-        function saveEdit(index, newName) {
-          if (newName.trim()) {
-            playlist[index] = newName.trim();
-            save();
-            renderPlaylist();
-          }
-        }
-
-        function clearPlaylist() {
-          if (confirm('Tem certeza que deseja apagar toda a playlist?')) {
-            playlist = [];
-            save();
-            renderPlaylist();
-          }
-        }
-
-        function sortPlaylist(asc = true) {
-          playlist.sort((a, b) => asc ? a.localeCompare(b) : b.localeCompare(a));
-          save();
-          renderPlaylist();// renderiza a playlist novamente
-        }
-
-        function toggleTheme() {
-          document.body.classList.toggle('dark-mode');
-          const icon = document.querySelector('.theme-toggle i');
-          if (document.body.classList.contains('dark-mode')) {
-            icon.classList.replace('fa-moon', 'fa-sun');
+          // Insere o item na nova posição
+          if (afterElement == null) {
+            playlistContainer.appendChild(draggingItem);
           } else {
-            icon.classList.replace('fa-sun', 'fa-moon');
+            playlistContainer.insertBefore(draggingItem, afterElement);
           }
-        }
+        });
 
-        function updateCounter() {
-          const count = playlist.length;
-          counter.innerHTML = `<i class="fas fa-music me-1"></i> ${count} ${count === 1 ? 'música' : 'músicas'}`;
-        }
-
-        function toggleEmptyState() {
-          if (playlist.length === 0) {
-            emptyState.style.display = 'block';
-            playlistContainer.style.display = 'none';
-          } else {
-            emptyState.style.display = 'none';
-            playlistContainer.style.display = 'flex';
+        item.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const from = parseInt(e.dataTransfer.getData('text/plain')); // Índice de origem
+          const to = index;                                             // Índice de destino
+          
+          // Reordena a playlist se o item foi movido
+          if (from !== to) {
+            const temp = playlist[from];
+            playlist.splice(from, 1);
+            playlist.splice(to, 0, temp);
+            savePlaylist();
+            renderPlaylist();
           }
+        });
+
+        playlistContainer.appendChild(item); // Adiciona o item à playlist
+      });
+      
+      toggleEmptyState(); // Atualiza estado vazio
+    }
+
+    /**
+     * Encontra a posição correta ao arrastar um item.
+     */
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.playlist-item:not(.dragging)')];
+      
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
         }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
 
-        // Inicialização
-        renderPlaylist();// renderiza a playlist ao carregar a pagina
-        updateCounter();// atualiza o contador de musicas
-        toggleEmptyState();// verifica se a playlist esta vazia
-      </script>
+    /**
+     * Adiciona uma nova música à playlist.
+     */
+    function addMusic() {
+      const name = musicInput.value.trim();
+      if (name) {
+        playlist.push(name);        // Adiciona ao array
+        savePlaylist();            // Salva no localStorage
+        musicInput.value = '';     // Limpa o input
+        renderPlaylist();          // Atualiza a lista
+        musicInput.focus();       // Foca no input novamente
+      }
+    }
 
+    /**
+     * Remove uma música da playlist.
+     */
+    function removeMusic(index) {
+  if (confirm('Tem certeza que deseja remover esta música?')) {
+    playlist.splice(index, 1);
+    deletedCount++; // Incrementa o contador
+    localStorage.setItem('deletedCount', deletedCount); // Salva no localStorage
+    document.getElementById('deletedCount').textContent = deletedCount;
+    savePlaylist();
+    renderPlaylist();
+  }
+}
+
+    /**
+     * Habilita a edição de uma música.
+     */
+    function editMusic(index) {
+      const currentName = playlist[index];
+      const item = playlistContainer.children[index].querySelector('.music-content');
+      
+      // Substitui o texto por um input
+      item.innerHTML = `
+        <input type="text" class="edit-input" value="${currentName}" 
+              onblur="saveEdit(${index}, this.value)" 
+              onkeydown="if(event.key==='Enter') saveEdit(${index}, this.value)"
+              autofocus>
+      `;
+    }
+
+    /**
+     * Salva a edição de uma música.
+     */
+    function saveEdit(index, newName) {
+      if (newName.trim()) {
+        playlist[index] = newName.trim(); // Atualiza o array
+        savePlaylist();                  // Salva alterações
+        renderPlaylist();                // Atualiza a lista
+      }
+    }
+
+    /**
+     * Limpa toda a playlist.
+     */
+ function clearPlaylist() {
+  if (confirm('Tem certeza que deseja apagar toda a playlist?')) {
+    playlist = [];
+    deletedCount = 0; // Reseta o contador
+    localStorage.setItem('deletedCount', deletedCount); // Salva no localStorage
+    document.getElementById('deletedCount').textContent = deletedCount;
+    savePlaylist();
+    renderPlaylist();
+  }
+}
+
+    /**
+     * Ordena a playlist em ordem alfabética (A-Z ou Z-A).
+     */
+    function sortPlaylist(asc = true) {
+      playlist.sort((a, b) => asc ? a.localeCompare(b) : b.localeCompare(a));
+      savePlaylist();
+      renderPlaylist();
+    }
+
+    /**
+     * Alterna entre modo claro e escuro.
+     */
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.querySelector('.theme-toggle i');
+      
+      // Altera o ícone (lua/sol)
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.replace('fa-moon', 'fa-sun');
+      } else {
+        icon.classList.replace('fa-sun', 'fa-moon');
+      }
+    }
+
+    /**
+     * Atualiza o contador de músicas.
+     */
+    function updateCounter() {
+      const count = playlist.length;
+      counter.innerHTML = `<i class="fas fa-music me-1"></i> ${count} ${count === 1 ? 'música' : 'músicas'}`;
+    }
+
+    /**
+     * Mostra/esconde a mensagem de playlist vazia.
+     */
+    function toggleEmptyState() {
+      if (playlist.length === 0) {
+        emptyState.style.display = 'block';
+        playlistContainer.style.display = 'none';
+      } else {
+        emptyState.style.display = 'none';
+        playlistContainer.style.display = 'flex';
+      }
+    }
+
+    // ===== INICIALIZAÇÃO =====
+    renderPlaylist();  // Renderiza a playlist ao carregar
+    updateCounter();   // Atualiza o contador
+    toggleEmptyState(); // Verifica se está vazia
+    document.getElementById('deletedCount').textContent = deletedCount; // Atualiza o contador de exclusões ao carregar a página
+  </script>
+
+  <!-- Bootstrap (JS) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
