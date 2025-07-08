@@ -20,6 +20,8 @@
       --dark-item: #2d2d3a;           /* Itens no modo escuro */
       --light-bg: #f8f9fa;            /* Fundo do modo claro */
       --light-item: #ffffff;          /* Itens no modo claro */
+      --primary-color-red: #e74c3c;    /* Vermelho principal */
+      --secondary-color-red: #ff6b6b;  /* Vermelho claro */ 
     }
 
     /* ===== ESTILOS GERAIS ===== */
@@ -36,6 +38,12 @@
     .dark-mode {
       background-color: var(--dark-bg);
       color: #f0f0f0;
+    }
+
+    /* ===== TEMA VERMELHO ===== */
+    .red-theme {
+      --primary-color: var(--primary-color-red);
+      --secondary-color: var(--secondary-color-red);
     }
 
     /* ===== LAYOUT DO CONTAINER ===== */
@@ -68,6 +76,22 @@
       font-size: 1.5rem;
       cursor: pointer;
       color: var(--primary-color);
+    }
+        /* Botão de alternar cores */
+    .header .color-toggle {
+      position: absolute;
+      right: 60px; /* Ajuste conforme necessário */
+      top: 0;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary-color);
+      transition: all 0.3s;
+    }
+
+    .header .color-toggle:hover {
+      transform: scale(1.1);
     }
 
     /* ===== FORMULÁRIO DE ADICIONAR MÚSICA ===== */
@@ -309,8 +333,10 @@
     <!-- CABEÇALHO -->
     <div class="header">
       <h1><i class="fas fa-music"></i> Minha Playlist</h1>
-      <!-- Botão de alternar tema (claro/escuro) -->
+      <!-- Botão de alternar tema (lua/sol) -->
       <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+      <!-- Novo botão de alternar cores -->
+      <button class="color-toggle" onclick="toggleColor()"><i class="fas fa-palette"></i></button>
     </div>
 
     <!-- FORMULÁRIO DE ADICIONAR MÚSICA -->
@@ -578,6 +604,21 @@
         playlistContainer.style.display = 'flex';
       }
     }
+
+    /**
+       * Alterna entre os temas de cores (roxo/vermelho)
+       */
+      function toggleColor() {
+        document.body.classList.toggle('red-theme');
+        
+        // Atualiza o ícone para mostrar o tema atual
+        const icon = document.querySelector('.color-toggle i');
+        if (document.body.classList.contains('red-theme')) {
+          icon.style.color = 'var(--primary-color-red)';
+        } else {
+          icon.style.color = 'var(--primary-color)';
+        }
+      }
 
     // ===== INICIALIZAÇÃO =====
     renderPlaylist();  // Renderiza a playlist ao carregar
