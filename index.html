@@ -20,8 +20,9 @@
       --dark-item: #2d2d3a;           /* Itens no modo escuro */
       --light-bg: #f8f9fa;            /* Fundo do modo claro */
       --light-item: #ffffff;          /* Itens no modo claro */
-      --primary-color-red: #e74c3c;    /* Vermelho principal */
-      --secondary-color-red: #ff6b6b;  /* Vermelho claro */ 
+      --primary-color-pink: #b333d3;    /* Vermelho principal */
+      --secondary-color-pink: #c25edd;  /* Vermelho claro */ 
+    
     }
 
     /* ===== ESTILOS GERAIS ===== */
@@ -42,8 +43,9 @@
 
     /* ===== TEMA VERMELHO ===== */
     .red-theme {
-      --primary-color: var(--primary-color-red);
-      --secondary-color: var(--secondary-color-red);
+      --primary-color: var(--primary-color-pink);
+      --secondary-color: var(--secondary-color-pink);
+      background-color: #daace7;
     }
 
     /* ===== LAYOUT DO CONTAINER ===== */
@@ -374,11 +376,14 @@
   </div>
 
   <!-- ===== JAVASCRIPT ===== -->
+
+
   <script>
     // ===== VARIÁVEIS GLOBAIS =====
     const musicInput = document.getElementById('musicInput');       // Input de adicionar música
     const playlistContainer = document.getElementById('playlist'); // Container da playlist
     const counter = document.getElementById('counter');            // Contador de músicas
+    let redtheme = (localStorage.getItem('theme'))
     const emptyState = document.getElementById('emptyState');      // Mensagem de playlist vazia
 
     // Carrega a playlist do localStorage ou cria um array vazio
@@ -610,6 +615,7 @@
        */
       function toggleColor() {
         document.body.classList.toggle('red-theme');
+
         
         // Atualiza o ícone para mostrar o tema atual
         const icon = document.querySelector('.color-toggle i');
@@ -625,6 +631,9 @@
     updateCounter();   // Atualiza o contador
     toggleEmptyState(); // Verifica se está vazia
     document.getElementById('deletedCount').textContent = deletedCount; // Atualiza o contador de exclusões ao carregar a página
+  
+
+
   </script>
 
   <!-- Bootstrap (JS) -->
